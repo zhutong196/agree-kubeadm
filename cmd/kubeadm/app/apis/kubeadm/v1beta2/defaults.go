@@ -53,6 +53,8 @@ const (
 	DefaultProxyBindAddressv6 = "::"
 	// DefaultDiscoveryTimeout specifies the default discovery timeout for kubeadm (used unless one is specified in the JoinConfiguration)
 	DefaultDiscoveryTimeout = 5 * time.Minute
+
+	DefaultDandelionType = "vxlan"
 )
 
 var (

@@ -144,6 +144,9 @@ func SetAPIEndpointDynamicDefaults(cfg *kubeadmapi.APIEndpoint) error {
 func SetClusterDynamicDefaults(cfg *kubeadmapi.ClusterConfiguration, advertiseAddress string, bindPort int32) error {
 	// Default all the embedded ComponentConfig structs
 	componentconfigs.Known.Default(cfg)
+	if cfg.Dandelion.NetworkType == "" {
+		cfg.Dandelion.NetworkType = kubeadmapiv1beta2.DefaultDandelionType
+	}
 
 	ip := net.ParseIP(advertiseAddress)
 	if ip.To4() != nil {

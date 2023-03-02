@@ -66,6 +66,7 @@ type ClusterConfiguration struct {
 	// +k8s:conversion-gen=false
 	ComponentConfigs ComponentConfigs
 
+	Dandelion Dandelion
 	// Etcd holds configuration for etcd.
 	Etcd Etcd
 
@@ -268,6 +269,11 @@ type BootstrapToken struct {
 	// Groups specifies the extra groups that this token will authenticate as when/if
 	// used for authentication
 	Groups []string
+}
+
+type Dandelion struct {
+	ImageTag    string //default v0.11.0
+	NetworkType string //ipip/vxlan/host-gw
 }
 
 // Etcd contains elements describing Etcd configuration.

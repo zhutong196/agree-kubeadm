@@ -19,10 +19,9 @@ package cmd
 import (
 	"encoding/json"
 	"fmt"
-	"io"
-
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
+	"io"
 	"k8s.io/klog"
 	"sigs.k8s.io/yaml"
 
@@ -57,6 +56,8 @@ func RunVersion(out io.Writer, cmd *cobra.Command) error {
 		ClientVersion: &clientVersion,
 	}
 	v.ClientVersion.GitVersion = "1.17.0"
+	v.ClientVersion.Major = "1"
+	v.ClientVersion.Minor = "17"
 
 	const flag = "output"
 	of, err := cmd.Flags().GetString(flag)

@@ -62,6 +62,18 @@ func GetDNSImage(cfg *kubeadmapi.ClusterConfiguration, imageName string) string 
 	}
 	return GetGenericImage(dnsImageRepository, imageName, dnsImageTag)
 }
+func GetDandelionImage(cfg *kubeadmapi.ClusterConfiguration, imageName string) string {
+
+	ddImageRepository := cfg.ImageRepository
+	// unless an override is specified
+	ddImageTag := constants.DandelionImageTag
+
+	// unless an override is specified
+	if cfg.Dandelion.ImageTag != "" {
+		ddImageTag = cfg.Dandelion.ImageTag
+	}
+	return GetGenericImage(ddImageRepository, imageName, ddImageTag)
+}
 
 // GetEtcdImage generates and returns the image for etcd
 func GetEtcdImage(cfg *kubeadmapi.ClusterConfiguration) string {
@@ -120,6 +132,7 @@ func GetControlPlaneImages(cfg *kubeadmapi.ClusterConfiguration) []string {
 		imgs = append(imgs, GetDNSImage(cfg, constants.KubeDNSSidecarImageName))
 		imgs = append(imgs, GetDNSImage(cfg, constants.KubeDNSDnsMasqNannyImageName))
 	}
+	//此处添加需要检查的镜像
 
 	return imgs
 }

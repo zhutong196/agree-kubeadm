@@ -18,12 +18,13 @@ package phases
 
 import (
 	"github.com/pkg/errors"
-
 	clientset "k8s.io/client-go/kubernetes"
+	"k8s.io/klog"
 	kubeadmapi "k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm"
 	"k8s.io/kubernetes/cmd/kubeadm/app/cmd/options"
 	"k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow"
 	cmdutil "k8s.io/kubernetes/cmd/kubeadm/app/cmd/util"
+	"k8s.io/kubernetes/cmd/kubeadm/app/phases/addons/dandelion"
 	dnsaddon "k8s.io/kubernetes/cmd/kubeadm/app/phases/addons/dns"
 	proxyaddon "k8s.io/kubernetes/cmd/kubeadm/app/phases/addons/proxy"
 )
@@ -36,6 +37,9 @@ var (
 
 	kubeProxyAddonLongDesc = cmdutil.LongDesc(`
 		Install the kube-proxy addon components via the API server.
+		`)
+	dandelionAddonLongDesc = cmdutil.LongDesc(`
+		Install the dandelion addon components via the API server.
 		`)
 )
 
@@ -65,6 +69,13 @@ func NewAddonPhase() workflow.Phase {
 				Long:         kubeProxyAddonLongDesc,
 				InheritFlags: getAddonPhaseFlags("kube-proxy"),
 				Run:          runKubeProxyAddon,
+			},
+			{
+				Name:         "dandelion",
+				Short:        "Install the dandelion addon to a Kubernetes cluster",
+				Long:         dandelionAddonLongDesc,
+				InheritFlags: getAddonPhaseFlags("dandelion"),
+				Run:          runDandelionAddon,
 			},
 		},
 	}
@@ -99,6 +110,16 @@ func runKubeProxyAddon(c workflow.RunData) error {
 		return err
 	}
 	return proxyaddon.EnsureProxyAddon(&cfg.ClusterConfiguration, &cfg.LocalAPIEndpoint, client)
+}
+
+// runDandelionAddon installs KubeProxy addon to a Kubernetes cluster
+func runDandelionAddon(c workflow.RunData) error {
+	cfg, client, err := getInitData(c)
+	if err != nil {
+		return err
+	}
+	klog.V(3).Infoln("cfg configuration: ", cfg.ClusterConfiguration)
+	return dandelion.EnsureDandelionAddon(&cfg.ClusterConfiguration, client)
 }
 
 func getAddonPhaseFlags(name string) []string {

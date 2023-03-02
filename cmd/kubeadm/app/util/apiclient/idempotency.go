@@ -19,6 +19,7 @@ package apiclient
 import (
 	"encoding/json"
 	"fmt"
+	"k8s.io/api/policy/v1beta1"
 	"time"
 
 	"github.com/pkg/errors"
@@ -50,6 +51,17 @@ func CreateOrUpdateConfigMap(client clientset.Interface, cm *v1.ConfigMap) error
 
 		if _, err := client.CoreV1().ConfigMaps(cm.ObjectMeta.Namespace).Update(cm); err != nil {
 			return errors.Wrap(err, "unable to update configmap")
+		}
+	}
+	return nil
+}
+
+func CreateOrUpdatePodSecurityPolicy(client clientset.Interface, psp *v1beta1.PodSecurityPolicy) error {
+	if _, err := client.PolicyV1beta1().PodSecurityPolicies().Create(psp); err != nil {
+		// Note: We don't run .Update here afterwards as that's probably not required
+		// Only thing that could be updated is annotations/labels in .metadata, but we don't use that currently
+		if !apierrors.IsAlreadyExists(err) {
+			return errors.Wrap(err, "unable to create PodSecurityPolicy")
 		}
 	}
 	return nil

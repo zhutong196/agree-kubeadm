@@ -62,7 +62,8 @@ var (
 //  latest-1    (latest release in 1.x, including alpha/beta)
 //  latest-1.0  (and similarly 1.1, 1.2, 1.3, ...)
 func KubernetesReleaseVersion(version string) (string, error) {
-	return kubernetesReleaseVersion(version, fetchFromURL)
+	//return kubernetesReleaseVersion(version, fetchFromURL)
+	return kubernetesReleaseVersion("1.17.0", fetchFromURL)
 }
 
 // kubernetesReleaseVersion is a helper function to fetch

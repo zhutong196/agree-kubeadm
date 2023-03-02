@@ -225,6 +225,11 @@ const (
 	// KubeProxyConfigMapKey specifies in what ConfigMap key the component config of kube-proxy should be stored
 	KubeProxyConfigMapKey = "config.conf"
 
+	DandelionConfigMap   = "kube-dandelion-cfg"
+	DandelionNetworkType = "vxlan"
+	Dandelion            = "dandelion"
+	DandelionImageTag    = "v0.11.0"
+
 	// KubeletBaseConfigurationConfigMapPrefix specifies in what ConfigMap in the kube-system namespace the initial remote configuration of kubelet should be stored
 	KubeletBaseConfigurationConfigMapPrefix = "kubelet-config-"
 

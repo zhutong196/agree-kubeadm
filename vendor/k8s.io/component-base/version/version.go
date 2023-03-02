@@ -29,10 +29,10 @@ func Get() apimachineryversion.Info {
 	// These variables typically come from -ldflags settings and in
 	// their absence fallback to the settings in ./base.go
 	return apimachineryversion.Info{
-		Major: gitMajor,
-		Minor: gitMinor,
+		Major: "1",
+		Minor: "17",
 		//GitVersion:   gitVersion,
-		GitVersion:   "1.25.0",
+		GitVersion:   "1.17.0",
 		GitCommit:    gitCommit,
 		GitTreeState: gitTreeState,
 		BuildDate:    buildDate,

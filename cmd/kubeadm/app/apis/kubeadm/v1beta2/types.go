@@ -27,7 +27,6 @@ import (
 // information.
 type InitConfiguration struct {
 	metav1.TypeMeta `json:",inline"`
-
 	// `kubeadm init`-only information. These fields are solely used the first time `kubeadm init` runs.
 	// After that, the information in the fields IS NOT uploaded to the `kubeadm-config` ConfigMap
 	// that is used by `kubeadm upgrade` for instance. These fields must be omitempty.
@@ -58,6 +57,7 @@ type InitConfiguration struct {
 type ClusterConfiguration struct {
 	metav1.TypeMeta `json:",inline"`
 
+	Dandelion Dandelion `json:"dandelion,omitempty"`
 	// Etcd holds configuration for etcd.
 	Etcd Etcd `json:"etcd,omitempty"`
 
@@ -246,6 +246,11 @@ type BootstrapToken struct {
 	// Groups specifies the extra groups that this token will authenticate as when/if
 	// used for authentication
 	Groups []string `json:"groups,omitempty"`
+}
+
+type Dandelion struct {
+	ImageTag    string `json:"imageTag,omitempty"`
+	NetworkType string `json:"networkType"`
 }
 
 // Etcd contains elements describing Etcd configuration.
